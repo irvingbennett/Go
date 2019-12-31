@@ -12,3 +12,24 @@ func Frequency(s string) FreqMap {
 	}
 	return m
 }
+
+// ConcurrentFrequency is
+func ConcurrentFrequency(s []string) FreqMap {
+	m := make(chan FreqMap)
+	f := FreqMap{}
+	n := FreqMap{}
+	for _, doc := range s {
+		go func(s string) {
+			n := FreqMap{}
+			for _, r := range s {
+				n[r]++
+			}
+			m <- n
+		}(doc)
+		n = <-m
+		for x, y := range n {
+			f[x] += y
+		}
+	}
+	return f
+}
