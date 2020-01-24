@@ -1,10 +1,8 @@
-// Package paasio wraps other read write functions
+// Package paasio counts bytes read and written
 package paasio
 
-// NewReadCounter wraps ReadCounter
-type NewReadCounter *interface {
-}
+import (
+	"fmt"
+)
 
-// NewWriteCounter wraps WriteCounter
-type NewWriteCounter *interface {
-}
+

@@ -1,0 +1,192 @@
+// Package say says a number
+package say
+
+import (
+	"fmt"
+	"math"
+	"strconv"
+	"strings"
+)
+
+// Say (input) says a number
+func Say(input int64) (number string, ok bool) {
+	if input == 0 {
+		number = "zero"
+		ok = true
+		return
+	}
+	var hundreds string
+	var triads []string
+	n := strconv.Itoa(int(input))
+	fmt.Println(input, n)
+	chunk := chunks(n)
+	ok = true
+	x := len(chunk) - 1
+	for x >= 0 {
+		fmt.Println("Chunk:", chunk[x])
+		if chunk[x] == "" {
+			break
+		}
+		i, err := strconv.Atoi(chunk[x])
+		if err != nil {
+			number = ""
+			ok = false
+			return
+		}
+
+		h := int(math.Floor(float64(i) / 100.0))
+		if h > 0 {
+			i = i % (h * 100)
+		}
+		fmt.Println("H:", h, "I:", i)
+		if h >= 1 {
+			hundreds = say(h)
+		}
+		if i >= 20 {
+			h = int(math.Floor(float64(i) / 10.0))
+		}
+		if h > 0 {
+			i = i % (h * 10)
+		}
+		fmt.Println("H:", h, "I:", i)
+		if h > 1 {
+			triads = append(triads, say(h*10))
+		}
+		if i > 0 {
+			triads = append(triads, say(i))
+		}
+		x--
+	}
+	fmt.Println(triads)
+	// number = concat(number, strings.Join(triads, "-"))
+	if len(hundreds) > 0 {
+		number = concat(number, hundreds, " hundred")
+	}
+	if len(triads) > 0 {
+		if len(hundreds) > 0 {
+			number = concat(number, " ", strings.Join(triads, "-"))
+		} else {
+			number = concat(number, strings.Join(triads, "-"))
+		}
+	}
+
+	fmt.Printf("'%s'\n", number)
+	return
+}
+
+func say(input int) (number string) {
+	switch input {
+	case 0:
+		number = "zero"
+	case 1:
+		number = "one"
+	case 2:
+		number = "two"
+	case 3:
+		number = "three"
+	case 4:
+		number = "four"
+	case 5:
+		number = "five"
+	case 6:
+		number = "six"
+	case 7:
+		number = "seven"
+	case 8:
+		number = "eight"
+	case 9:
+		number = "nine"
+	case 10:
+		number = "ten"
+	case 11:
+		number = "eleven"
+	case 12:
+		number = "twelve"
+	case 13:
+		number = "thirteen"
+	case 14:
+		number = "fourteen"
+	case 15:
+		number = "fifteen"
+	case 16:
+		number = "sixteen"
+	case 17:
+		number = "seventeen"
+	case 18:
+		number = "eighteen"
+	case 19:
+		number = "nineteen"
+	case 20:
+		number = "twenty"
+	case 30:
+		number = "thirty"
+	case 40:
+		number = "forty"
+	case 50:
+		number = "fifty"
+	case 60:
+		number = "sixty"
+	case 70:
+		number = "seventy"
+	case 80:
+		number = "eighty"
+	case 90:
+		number = "ninety"
+	case 100:
+		number = "hundred"
+	case 1000:
+		number = "thousand"
+	case 1000000:
+		number = "million"
+	case 1000000000:
+		number = "billion"
+	case 1000000000000:
+		number = "trillion"
+	}
+	return
+}
+
+func chunks(in string) (chunk []string) {
+	var x, j int
+	if len(in) < 3 {
+		x = 0
+		j = len(in)
+	} else {
+		j = len(in)
+		x = j - 3
+	}
+	for x >= 0 {
+		chunk = append(chunk, in[x:j])
+		fmt.Println(chunk)
+		x -= 3
+		j -= 3
+		if x < 0 {
+			x = 0
+		}
+		if j < 0 {
+			break
+		}
+	}
+	chunk = reverse(chunk)
+	return
+}
+func reverse(numbers []string) []string {
+	for i := 0; i < len(numbers)/2; i++ {
+		j := len(numbers) - i - 1
+		numbers[i], numbers[j] = numbers[j], numbers[i]
+	}
+	return numbers
+
+}
+
+func concat(s ...string) string {
+	buf := make([]byte, 512)
+	count := 0
+
+	for _, triad := range s {
+		count += copy(buf[count:], triad)
+	}
+	buf = buf[:count]
+	// fmt.Println("Count:", count)
+	return string(buf)
+}
