@@ -3,6 +3,8 @@
 // the first n number
 package diffsquares
 
+import "fmt"
+
 // SumOfSquares returns the sum of the squares
 func SumOfSquares(n int) int {
 	sum := 0
@@ -21,5 +23,7 @@ func SquareOfSum(n int) int {
 
 // Difference returns the difference of the sums
 func Difference(n int) int {
-	return SquareOfSum(n) - SumOfSquares(n)
+	difference := SquareOfSum(n) - SumOfSquares(n)
+	fmt.Println("Difference of", n, "is", difference)
+	return difference
 }

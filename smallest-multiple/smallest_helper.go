@@ -1,18 +1,12 @@
-// Package prime return prime factors of a number
-package prime
+package smallest
 
 import (
 	"fmt"
-
-	"math"
 )
 
 // Factors return prime factors
 func Factors(n int64) (res []int64) {
-	fmt.Println(n, math.MaxInt64)
-	if n > math.MaxInt64 {
-		return
-	}
+	fmt.Println(n)
 	res = make([]int64, 0)
 	if n == 0 || n == 1 {
 		return
@@ -21,9 +15,6 @@ func Factors(n int64) (res []int64) {
 		res = append(res, n)
 		return
 	}
-
-	// sv := make(chan int) // Create a new channel
-	// go Sieve(sv)
 
 	var number, quotient, remainder, i int64
 	number = n
