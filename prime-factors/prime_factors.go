@@ -9,7 +9,7 @@ import (
 
 // Factors return prime factors
 func Factors(n int64) (res []int64) {
-	fmt.Println(n, math.MaxInt64)
+	// fmt.Println(n, math.MaxInt64)
 	if n > math.MaxInt64 {
 		return
 	}
@@ -46,8 +46,10 @@ func Factors(n int64) (res []int64) {
 	return res
 }
 
+/*
 func divmod(numerator, denominator int64) (quotient, remainder int64) {
 	quotient = numerator / denominator // integer division, decimals are truncated
 	remainder = numerator % denominator
 	return
 }
+*/

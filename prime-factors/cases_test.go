@@ -36,6 +36,11 @@ var tests = []struct {
 		[]int64{2, 2, 3},
 	},
 	{
+		"product of primes and non-primes",
+		32,
+		[]int64{2, 2, 2, 2, 2},
+	},
+	{
 		"product of primes",
 		901255,
 		[]int64{5, 17, 23, 461},

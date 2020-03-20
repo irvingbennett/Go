@@ -43,49 +43,17 @@ func main() {
 	fmt.Println("A Fibonacci generator via channel/goroutine:")
 	// function fib() returns a channel
 	// so fc would be of type "chan int"
-	sum := 0
-	fc := fib(100)
+	// sum := 0
+	fc := fib(20)
 	fmt.Printf("fc is type %T\n", fc)
-	for k := range fc {
-		if k > 4000000 {
-			break
-		}
-		if k%2 == 0 {
-			sum += k
-		}
+	k := 0
+	n:=0
+	for k = range fc {
+		
+			fmt.Println(n, k)
+
+		n++
 
 	}
-	fmt.Println("Sum is", sum)
+	fmt.Println("Index is", k)
 }
-
-/*
-A Fibonacci generator via channel/goroutine:
-fc is type chan int
-0  1  1  2  3  5  8  13  21  34  55  89  144
-*/
-
-/*
-package main
-
-import "fmt"
-
-// Fibonacci return a slice of Fibonacci number up to number
-func Fibonacci(n int) (f int) {
-	if n == 0 {
-		return 0
-	} else if n == 1 {
-		return 1
-	} else {
-		f = Fibonacci(n-2) + Fibonacci(n-1)
-	}
-	return
-}
-
-func main() {
-	sum := 0
-	for x := 1; x <= 100; x++ {
-		sum += Fibonacci(x)
-	}
-	fmt.Println("Sum is", sum)
-}
-*/
