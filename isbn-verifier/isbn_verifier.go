@@ -2,32 +2,40 @@
 package isbn
 
 import (
-	"fmt"
 	"unicode"
 )
 
-// IsValidISBN (test.isbn) verifies the code
+// IsValidISBN (test.isbn) checks the ISBN
 func IsValidISBN(isbn string) (valid bool) {
-	fmt.Println(isbn)
-	i := []byte(isbn)
-	x := 10
+	// fmt.Println(isbn)
 	n := 0
-	var last rune
-	for _, y := range i {
-		if unicode.IsDigit(rune(y)) {
-			n = n + (int(y)-47)*x
-			x--
+	x := 10
+	last := ' '
+	for _, d := range isbn {
+		if unicode.IsDigit(d) || unicode.ToUpper(d) == 'X' {
+			if unicode.IsDigit(d) {
+				n += (int(d) - 48) * x
+				// fmt.Printf("%d * %d = %d, n = %d\n", (int(d) - 48), x, (int(d)-47)*x, n)
+				x--
+			} else {
+				n += 10
+				x--
+				// fmt.Println("Is X, n is", n)
+			}
+		} else if unicode.IsLetter(d) && x > 0 {
+			valid = false
+			return
 		}
-		last = rune(y)
+		last = d
 	}
-	if last == 'x' || last == 'X' {
-		n = n + 10
-		fmt.Println("Last is X", n, n%11)
+
+	if !unicode.IsDigit(last) && !(unicode.ToUpper(last) == 'X') || x != 0 {
+		valid = false
+		return
 	}
 	if n%11 == 0 {
 		valid = true
 	}
-	fmt.Printf("X: %d, Valid: %v, Y: %s\n", x, valid, string(last))
-
+	// fmt.Printf("Last: %s, n: %d, x: %d, valid: %v\n", string(last), n, x, valid)
 	return
 }

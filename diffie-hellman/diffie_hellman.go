@@ -2,7 +2,6 @@
 package diffiehellman
 
 import (
-	"math"
 	"math/big"
 	"math/rand"
 	"time"
@@ -20,16 +19,10 @@ import (
 // PrivateKey (p *big.Int) *big.Int
 func PrivateKey(p *big.Int) (k *big.Int) {
 	// fmt.Println(p)
-	var s *rand.Rand
+
 	key := new(big.Int)
 	limit := new(big.Int).Sub(p, big.NewInt(2))
 	seed := rand.New(rand.NewSource(time.Now().UnixNano()))
-	if &s == nil {
-		s = seed
-	} else {
-		seed = rand.New(rand.NewSource(int64(math.Round(math.Pi * 10000000))))
-		s = nil
-	}
 	// fmt.Printf("Type: %T\n", seed)
 	k = key.Rand(seed, limit).Add(key, big.NewInt(2))
 	return
