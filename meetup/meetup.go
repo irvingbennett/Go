@@ -2,7 +2,6 @@
 package meetup
 
 import (
-	"fmt"
 	"time"
 )
 
@@ -26,44 +25,34 @@ const (
 
 // Day returns the day of the meetup date
 func Day(w WeekSchedule, day time.Weekday, month time.Month, year int) int {
-	fmt.Println("Day:", w, "Weekday:", day, "Month:", month, "Year:", year, "WeekSchedule:", First)
+	// fmt.Println("Day:", w, "Weekday:", day, "Month:", month, "Year:", year, "WeekSchedule:", First)
 	var dom int
 	switch {
 	case w == Teenth:
-		fmt.Println("Teenth")
 		dom = 13 // is WeekSchedule, 6 is Teenth
 
 	case w == First:
-		fmt.Println("First")
 		dom = 1 // is WeekSchedule, 1 is first
 
 	case w == Second:
-		fmt.Println("Second")
 		dom = 8 // is WeekSchedule, 2 is Second
 
 	case w == Third:
-		fmt.Println("Third")
 		dom = 15 // is WeekSchedule, 3 is Third
 
 	case w == Fourth:
-		fmt.Println("Fourth")
 		dom = 22 // is WeekSchedule, 4 is Fourth
 
 	case w == Last:
-		fmt.Println("Last")
 		if m31(month) {
 			dom = 25 // is WeekSchedule, 5 Last
 		} else if m30(month) {
 			dom = 24 // is WeekSchedule, 5 is Last
 		} else {
-			dom = 28 // 29 days in this month
-			fmt.Println("It's February")
-			for x := 0; x < 7; x++ {
-				d := time.Date(year, month, dom-x, 12, 30, 0, 0, time.UTC)
-				fmt.Println(d.Weekday(), d.Day())
-				if d.Weekday() == day {
-					return d.Day()
-				}
+			dom = 22 // 28 days in this month
+
+			if IsLeapYear(year) {
+				dom = 23 // 29 days in this month
 			}
 		}
 	}
@@ -95,6 +84,19 @@ func m30(m time.Month) bool {
 		if m == x {
 			return true
 		}
+	}
+	return false
+}
+
+// IsLeapYear returns true if a year is leap
+func IsLeapYear(l int) bool {
+	if l%4 == 0 {
+		if l%100 == 0 {
+			if l%400 != 0 {
+				return false
+			}
+		}
+		return true
 	}
 	return false
 }
